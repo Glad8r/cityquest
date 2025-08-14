@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import LeafletCheckpointMap from './LeafletCheckpointMap';
 import './App.css';
+import OdysseusLogo from './assets/Odysseus.png';
 
 const QUESTS = [
   { id: 1, name: 'Historic Landmarks', description: 'Visit famous city spots.' },
@@ -14,7 +15,7 @@ function App() {
 
   return (
     <div className="app-container" style={{ maxWidth: 480, margin: '0 auto', padding: '1em' }}>
-      <h1>City Quest!</h1>
+      <img src={OdysseusLogo} alt="Odysseus" style={{ display: 'block', margin: '0 auto 1em auto', maxWidth: '220px', width: '80%' }} />
       {!selectedQuest ? (
         <>
           <h2>Choose Your Quest</h2>
