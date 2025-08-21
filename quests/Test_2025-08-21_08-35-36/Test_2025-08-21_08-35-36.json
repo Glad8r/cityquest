@@ -1,0 +1,54 @@
+{
+  "id": 1755790536711,
+  "name": "Test",
+  "description": "Quest",
+  "difficulty": "Hard",
+  "ageGroup": "Teens",
+  "distance": "Drive",
+  "rating": 3.0,
+  "enabled": true,
+  "checkpoints": [
+    {
+      "id": 1,
+      "name": "Way",
+      "clue": "Point",
+      "lat": 45.47478743487338,
+      "lng": -122.8550656608899,
+      "funFact": "Fun",
+      "answerImage": [
+        "Test_2025-08-21_08-35-36_waypoint1_photo1.jpg"
+      ]
+    }
+  ],
+  "leaderboard": {
+    "entries": [
+      {
+        "team_name": "Cyberpunk",
+        "waypoints_completed": 1,
+        "completion_time": 9566,
+        "quest_date": "8/21/2025",
+        "timestamp": "2025-08-21T09:28:39.221666"
+      }
+    ],
+    "stats": {
+      "total_completions": 1,
+      "average_time": 9566.0,
+      "best_time": 9566,
+      "last_updated": "2025-08-21T09:28:39.223846"
+    },
+    "ratings": [
+      {
+        "rating": 3,
+        "timestamp": "2025-08-21T08:37:14.757525"
+      },
+      {
+        "rating": 2,
+        "timestamp": "2025-08-21T08:51:25.687207"
+      },
+      {
+        "rating": 4,
+        "timestamp": "2025-08-21T09:28:43.219063"
+      }
+    ]
+  }
+}

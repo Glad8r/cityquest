@@ -16,32 +16,8 @@ app = Flask(__name__)
 from flask_cors import CORS
 CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST", "OPTIONS"])
 
-# Leaderboard storage
-LEADERBOARD_FILE = "leaderboard.json"
-
 # Quest storage
 QUESTS_DIR = "quests"
-
-def load_leaderboard():
-    """Load leaderboard data from file"""
-    try:
-        if os.path.exists(LEADERBOARD_FILE):
-            with open(LEADERBOARD_FILE, 'r') as f:
-                return json.load(f)
-        return {}
-    except Exception as e:
-        print(f"Error loading leaderboard: {e}")
-        return {}
-
-def save_leaderboard(leaderboard_data):
-    """Save leaderboard data to file"""
-    try:
-        with open(LEADERBOARD_FILE, 'w') as f:
-            json.dump(leaderboard_data, f, indent=2)
-        return True
-    except Exception as e:
-        print(f"Error saving leaderboard: {e}")
-        return False
 
 def ensure_quests_dir():
     """Create quests directory if it doesn't exist"""
@@ -279,22 +255,118 @@ def get_leaderboard(quest_id):
         return response
     
     try:
-        leaderboard_data = load_leaderboard()
-        quest_leaderboard = leaderboard_data.get(str(quest_id), [])
+        # Get leaderboard from quest's JSON file
+        quest_file_path = find_quest_file_by_id(quest_id)
+        if not quest_file_path:
+            return jsonify({'error': 'Quest not found'}), 404
         
-        # Sort by waypoints completed (descending), then by completion time (ascending)
-        sorted_leaderboard = sorted(
-            quest_leaderboard,
-            key=lambda x: (-x.get('waypoints_completed', 0), x.get('completion_time', float('inf')))
-        )
-        
-        return jsonify({
-            'quest_id': quest_id,
-            'leaderboard': sorted_leaderboard
-        })
+        try:
+            with open(quest_file_path, 'r', encoding='utf-8') as f:
+                quest_data = json.load(f)
+            
+            leaderboard_data = quest_data.get('leaderboard', {})
+            quest_leaderboard = leaderboard_data.get('entries', [])
+            
+            # Sort by waypoints completed (descending), then by completion time (ascending)
+            sorted_leaderboard = sorted(
+                quest_leaderboard,
+                key=lambda x: (-x.get('waypoints_completed', 0), x.get('completion_time', float('inf')))
+            )
+            
+            return jsonify({
+                'quest_id': quest_id,
+                'leaderboard': sorted_leaderboard,
+                'stats': leaderboard_data.get('stats', {})
+            })
+        except Exception as e:
+            print(f"Error reading quest leaderboard: {e}")
+            return jsonify({'error': 'Internal server error'}), 500
     except Exception as e:
         print(f"Error getting leaderboard: {e}")
         return jsonify({'error': 'Internal server error'}), 500
+
+def find_quest_file_by_id(quest_id):
+    """Find quest JSON file by quest ID"""
+    if os.path.exists(QUESTS_DIR):
+        for quest_folder in os.listdir(QUESTS_DIR):
+            quest_path = os.path.join(QUESTS_DIR, quest_folder)
+            if os.path.isdir(quest_path):
+                # Look for JSON files
+                json_files = [f for f in os.listdir(quest_path) if f.endswith('.json') and not f.endswith('_metadata.json')]
+                for json_file in json_files:
+                    file_path = os.path.join(quest_path, json_file)
+                    try:
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            quest_data = json.load(f)
+                            # Check if the quest ID matches
+                            if str(quest_data.get('id')) == str(quest_id):
+                                return file_path
+                    except Exception as e:
+                        print(f"Error reading quest file {json_file}: {e}")
+                        continue
+    return None
+
+def update_quest_leaderboard(quest_id, new_entry):
+    """Update the leaderboard in the quest's JSON file"""
+    quest_file_path = find_quest_file_by_id(quest_id)
+    if not quest_file_path:
+        print(f"⚠️ Quest file not found for ID {quest_id}")
+        return False
+    
+    try:
+        # Load the quest data
+        with open(quest_file_path, 'r', encoding='utf-8') as f:
+            quest_data = json.load(f)
+        
+        # Get or create leaderboard data
+        leaderboard_data = quest_data.get('leaderboard', {})
+        if not leaderboard_data:
+            leaderboard_data = {
+                'entries': [],
+                'stats': {
+                    'total_completions': 0,
+                    'average_time': 0,
+                    'best_time': None,
+                    'last_updated': None
+                },
+                'ratings': []
+            }
+        
+        # Add new entry to entries
+        entries = leaderboard_data.get('entries', [])
+        entries.append(new_entry)
+        leaderboard_data['entries'] = entries
+        
+        # Update stats
+        stats = leaderboard_data.get('stats', {})
+        stats['total_completions'] = len(entries)
+        
+        # Calculate average time
+        if entries:
+            total_time = sum(entry.get('completion_time', 0) for entry in entries)
+            stats['average_time'] = total_time / len(entries)
+            
+            # Find best time
+            completion_times = [entry.get('completion_time', 0) for entry in entries if entry.get('completion_time', 0) > 0]
+            if completion_times:
+                stats['best_time'] = min(completion_times)
+        
+        stats['last_updated'] = datetime.now().isoformat()
+        leaderboard_data['stats'] = stats
+        
+        # Update the quest data
+        quest_data['leaderboard'] = leaderboard_data
+        
+        # Save the updated quest file
+        with open(quest_file_path, 'w', encoding='utf-8') as f:
+            json.dump(quest_data, f, indent=2, ensure_ascii=False)
+        
+        print(f"✅ Updated quest {quest_id} leaderboard with new entry")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error updating quest leaderboard: {e}")
+        return False
 
 @app.route('/leaderboard/<quest_id>/add', methods=['POST', 'OPTIONS'])
 def add_leaderboard_entry(quest_id):
@@ -317,12 +389,6 @@ def add_leaderboard_entry(quest_id):
             if field not in data:
                 return jsonify({'error': f'Missing required field: {field}'}), 400
         
-        leaderboard_data = load_leaderboard()
-        
-        # Initialize quest leaderboard if it doesn't exist
-        if str(quest_id) not in leaderboard_data:
-            leaderboard_data[str(quest_id)] = []
-        
         # Create new entry
         new_entry = {
             'team_name': data['team_name'],
@@ -332,14 +398,10 @@ def add_leaderboard_entry(quest_id):
             'timestamp': datetime.now().isoformat()
         }
         
-        # Add to leaderboard
-        leaderboard_data[str(quest_id)].append(new_entry)
+        # Update quest's own leaderboard in JSON file
+        update_quest_leaderboard(quest_id, new_entry)
         
-        # Save updated leaderboard
-        if save_leaderboard(leaderboard_data):
-            return jsonify({'message': 'Leaderboard entry added successfully'})
-        else:
-            return jsonify({'error': 'Failed to save leaderboard'}), 500
+        return jsonify({'message': 'Leaderboard entry added successfully'})
             
     except Exception as e:
         print(f"Error adding leaderboard entry: {e}")
@@ -382,8 +444,20 @@ def submit_quest():
                 print(f"Failed to parse zip_data JSON: {e}")
                 return jsonify({'error': 'Invalid zip_data format'}), 400
         
-        if not quest_data or not quest_data.get('name'):
+        if not quest_data:
             return jsonify({'error': 'Quest data is required'}), 400
+        
+        # Validate quest name
+        quest_name = quest_data.get('name', '').strip()
+        print(f"Received quest name: '{quest_name}' (length: {len(quest_name)})")
+        if not quest_name:
+            return jsonify({'error': 'Quest name is required and cannot be empty'}), 400
+        
+        if len(quest_name) < 3:
+            return jsonify({'error': 'Quest name must be at least 3 characters long'}), 400
+        
+        if len(quest_name) > 100:
+            return jsonify({'error': 'Quest name must be less than 100 characters'}), 400
         
         # Validate that each waypoint has at least one photo
         for i, cp in enumerate(quest_data.get('checkpoints', [])):
@@ -397,7 +471,7 @@ def submit_quest():
                     return jsonify({'error': f'Waypoint {i+1} must have at least one photo'}), 400
         
         # Create a safe quest folder name
-        safe_name = re.sub(r'[^a-zA-Z0-9]', '_', quest_data['name'])
+        safe_name = re.sub(r'[^a-zA-Z0-9]', '_', quest_name)
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         quest_folder = f"{safe_name}_{timestamp}"
         quest_folder_path = os.path.join(QUESTS_DIR, quest_folder)
@@ -456,18 +530,20 @@ def submit_quest():
                     'clue': cp.get('clue', f'Find waypoint {i+1}'),
                     'lat': cp.get('lat', 0),
                     'lng': cp.get('lng', 0),
-                    'notes': cp.get('notes', ''),
+                    'funFact': cp.get('funFact', ''),
                     'answerImage': waypoint_images if waypoint_images else []  # Include all images as an array
                 })
         
         # Generate the quest file content as JSON
         quest_json_data = {
             'id': quest_data.get('id', int(time.time() * 1000)), # Use provided ID or generate timestamp
-            'name': quest_data['name'],
+            'name': quest_name,
             'description': quest_data.get('description', 'Quest created with Quest Creator'),
-            'difficulty': 'Medium',
-            'ageGroup': 'All Ages',
-            'distance': f'{len(waypoints_with_photos)} waypoints',
+            'difficulty': quest_data.get('difficulty', 'Medium'),
+            'ageGroup': quest_data.get('ageGroup', 'All Ages'),
+            'distance': quest_data.get('distance', 'Walk'),
+            'rating': quest_data.get('rating', 0),
+            'enabled': quest_data.get('enabled', True),
             'checkpoints': [
                 {
                     'id': wp['id'],
@@ -475,11 +551,21 @@ def submit_quest():
                     'clue': wp['clue'],
                     'lat': wp['lat'],
                     'lng': wp['lng'],
-                    'notes': wp['notes'] if wp['notes'] else '',
+                    'funFact': wp.get('funFact', ''),
                     'answerImage': wp['answerImage'] if wp['answerImage'] else []
                 }
                 for wp in waypoints_with_photos
-            ]
+            ],
+            'leaderboard': quest_data.get('leaderboard', {
+                'entries': [],
+                'stats': {
+                    'total_completions': 0,
+                    'average_time': 0,
+                    'best_time': None,
+                    'last_updated': None
+                },
+                'ratings': []
+            })
         }
         
         quest_file_content = json.dumps(quest_json_data, indent=2)
@@ -904,7 +990,10 @@ def root():
         'endpoints': {
             'health': '/health',
             'compare': '/compare (supports multiple answer images)',
-            'leaderboard': '/leaderboard/<quest_id>',
+            'leaderboard': {
+                'add_entry': '/leaderboard/<quest_id>/add',
+                'get_leaderboard': '/leaderboard/<quest_id>/get'
+            },
             'quests': '/api/quests (get all available quests)',
             'quest_by_id': '/api/quests/<id> (get specific quest)',
             'quest_creator': {

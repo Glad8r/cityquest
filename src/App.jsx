@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import LeafletCheckpointMap from './LeafletCheckpointMap';
-import QuestCreator from './QuestCreator';
+import QuestDesigner from './QuestCreator';
 import './App.css';
 import OdysseusLogo from './assets/Odysseus.png';
 import { SERVER_URL } from './config';
@@ -10,19 +10,19 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainApp />} />
-      <Route path="/create" element={<QuestCreatorWrapper />} />
+      <Route path="/create" element={<QuestDesignerWrapper />} />
     </Routes>
   );
 }
 
-function QuestCreatorWrapper() {
+function QuestDesignerWrapper() {
   const navigate = useNavigate();
   
   const handleClose = () => {
     navigate('/');
   };
   
-  return <QuestCreator onClose={handleClose} />;
+  return <QuestDesigner onClose={handleClose} />;
 }
 
 function MainApp() {
@@ -300,13 +300,15 @@ function MainApp() {
         quest_date: new Date().toLocaleDateString()
       };
 
-      console.log('🔍 Using quest ID for leaderboard:', selectedQuest.id);
+      // Use the actual quest ID for leaderboard requests
+      const questId = selectedQuest.id_string || selectedQuest.id;
+      console.log('🔍 Using quest ID for leaderboard:', questId);
       console.log('🔍 Quest data:', selectedQuest);
 
       console.log('📤 Sending leaderboard entry:', leaderboardEntry);
-      console.log('📤 URL:', `${SERVER_URL}/leaderboard/${selectedQuest.id}/add`);
+      console.log('📤 URL:', `${SERVER_URL}/leaderboard/${questId}/add`);
       
-      fetch(`${SERVER_URL}/leaderboard/${selectedQuest.id}/add`, {
+      fetch(`${SERVER_URL}/leaderboard/${questId}/add`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -325,7 +327,7 @@ function MainApp() {
             console.error('❌ Error adding to leaderboard:', data.error);
           } else {
             console.log('✅ Leaderboard entry added successfully');
-            loadQuestLeaderboard(selectedQuest.id);
+            loadQuestLeaderboard(questId);
           }
         })
         .catch((err) => {
@@ -405,7 +407,11 @@ function MainApp() {
         console.error('Error loading leaderboard:', data.error);
         setCurrentQuestLeaderboard([]);
       } else {
-        setCurrentQuestLeaderboard(data.leaderboard || []);
+        // Store both leaderboard entries and stats
+        setCurrentQuestLeaderboard({
+          entries: data.leaderboard || [],
+          stats: data.stats || {}
+        });
       }
     } catch (error) {
       console.error('Error loading leaderboard:', error);
@@ -700,7 +706,9 @@ function MainApp() {
                     </button>
                     <button
                       onClick={() => {
-                        loadQuestLeaderboard(q.id);
+                        // Use the actual quest ID (id_string) for leaderboard requests
+                        const questId = q.id_string || q.id;
+                        loadQuestLeaderboard(questId);
                         setShowQuestLeaderboard(true);
                       }}
                       style={{
@@ -740,7 +748,7 @@ function MainApp() {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#6b46c1'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = '#805ad5'}
               >
-                🛠️ Create New Quest
+                🛠️ Quest Designer
               </button>
             </div>
           </div>
@@ -799,12 +807,44 @@ function MainApp() {
                 ✕
               </button>
             </div>
+            
+            {/* Leaderboard Stats */}
+            {currentQuestLeaderboard.stats && Object.keys(currentQuestLeaderboard.stats).length > 0 && (
+              <div style={{ 
+                background: '#2d3748', 
+                borderRadius: '8px', 
+                padding: '1em', 
+                marginBottom: '1em',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                gap: '0.5em'
+              }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: '#68d391', fontSize: '1.2em', fontWeight: 'bold' }}>
+                    {currentQuestLeaderboard.stats.total_completions || 0}
+                  </div>
+                  <div style={{ color: '#a0aec0', fontSize: '0.8em' }}>Completions</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: '#f6ad55', fontSize: '1.2em', fontWeight: 'bold' }}>
+                    {currentQuestLeaderboard.stats.average_time ? formatTime(currentQuestLeaderboard.stats.average_time) : 'N/A'}
+                  </div>
+                  <div style={{ color: '#a0aec0', fontSize: '0.8em' }}>Avg Time</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: '#4299e1', fontSize: '1.2em', fontWeight: 'bold' }}>
+                    {currentQuestLeaderboard.stats.best_time ? formatTime(currentQuestLeaderboard.stats.best_time) : 'N/A'}
+                  </div>
+                  <div style={{ color: '#a0aec0', fontSize: '0.8em' }}>Best Time</div>
+                </div>
+              </div>
+            )}
 
-            {currentQuestLeaderboard.length === 0 ? (
+            {(!currentQuestLeaderboard.entries || currentQuestLeaderboard.entries.length === 0) ? (
               <p style={{ color: '#a0aec0', textAlign: 'center' }}>No completed quests yet. Be the first!</p>
             ) : (
               <div style={{ background: '#2d3748', borderRadius: '8px', padding: '1em' }}>
-                {currentQuestLeaderboard.map((entry, index) => (
+                {currentQuestLeaderboard.entries.map((entry, index) => (
                   <div
                     key={index}
                     style={{
@@ -1183,7 +1223,9 @@ function MainApp() {
                    if (userRating > 0) {
                      console.log('🔍 Quest ID being used for rating:', completedQuest.id);
                      console.log('🔍 Quest data:', completedQuest);
-                     const success = await submitRating(completedQuest.id, userRating);
+                     // Use the actual quest ID for rating submission
+        const questId = completedQuest.id_string || completedQuest.id;
+        const success = await submitRating(questId, userRating);
                      if (!success) {
                        alert('Failed to submit rating. Please try again.');
                      }

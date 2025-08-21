@@ -1,7 +1,11 @@
 {
+  "id": 1755793504727,
   "name": "Aloha Neighborhood",
   "description": "Five-stop mini-quest around the Aloha neighborhood.",
-  "rating": 0,
+  "difficulty": "Medium",
+  "ageGroup": "All Ages",
+  "distance": "Drive",
+  "rating": 4.2,
   "enabled": true,
   "checkpoints": [
     {
@@ -32,7 +36,7 @@
       "id": 4,
       "name": "White",
       "clue": "Messages travel from far and near—find the box that brings letters here.",
-      "lat": 45.4755570,
+      "lat": 45.475557,
       "lng": -122.8560516,
       "answerImage": "IMG_2261.jpg"
     },
@@ -46,12 +50,20 @@
     }
   ],
   "leaderboard": {
-    "entries": [],
+    "entries": [
+      {
+        "team_name": "Test Team",
+        "waypoints_completed": 5,
+        "completion_time": 1800000,
+        "quest_date": "2024-01-15",
+        "timestamp": "2024-01-15T10:30:00"
+      }
+    ],
     "stats": {
-      "total_completions": 0,
-      "average_time": 0,
-      "best_time": null,
-      "last_updated": null
+      "total_completions": 1,
+      "average_time": 1800000.0,
+      "best_time": 1800000,
+      "last_updated": "2024-01-15T10:30:00"
     },
     "ratings": []
   }

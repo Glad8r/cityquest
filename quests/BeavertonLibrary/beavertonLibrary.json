@@ -1,7 +1,11 @@
 {
+  "id": 1755793497898,
   "name": "Beaverton Library",
   "description": "Twelve-stop quest around the Beaverton Library and City Park area.",
-  "rating": 0,
+  "difficulty": "Easy",
+  "ageGroup": "Kids",
+  "distance": "Walk",
+  "rating": 5,
   "enabled": true,
   "checkpoints": [
     {
