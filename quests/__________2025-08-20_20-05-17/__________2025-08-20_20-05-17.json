@@ -1,0 +1,22 @@
+{
+  "id": 1755745510884,
+  "name": "\u041e\u0434\u043d\u0430 \u041d\u043e\u0433\u0430",
+  "description": "Quest created with Quest Designer",
+  "difficulty": "Medium",
+  "ageGroup": "All Ages",
+  "distance": "1 waypoints",
+  "checkpoints": [
+    {
+      "id": 1,
+      "name": "\u042d\u0442\u043e \u0436\u0435 \u044f",
+      "clue": "\u042f \u0442\u0430\u043a\u043e\u0439 \u0442\u043e\u0440\u043c\u043e\u0437!",
+      "lat": 45.51887328325419,
+      "lng": -122.56266415574095,
+      "notes": "",
+      "answerImage": [
+        "__________2025-08-20_20-05-17_waypoint1_photo1.jpg",
+        "__________2025-08-20_20-05-17_waypoint1_photo2.jpg"
+      ]
+    }
+  ]
+}

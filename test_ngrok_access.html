@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test ngrok Access</title>
+</head>
+<body>
+    <h1>Testing ngrok Server Access</h1>
+    <button onclick="testServer()">Test Server</button>
+    <div id="result"></div>
+
+    <script>
+        async function testServer() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('https://6f589f8805fd.ngrok-free.app/');
+                const text = await response.text();
+                
+                if (text.includes('<!DOCTYPE')) {
+                    resultDiv.innerHTML = `
+                        <h3>❌ ngrok Warning Page Detected</h3>
+                        <p>This is the ngrok security warning page. You need to:</p>
+                        <ol>
+                            <li>Open <a href="https://6f589f8805fd.ngrok-free.app/" target="_blank">this link</a> in a new tab</li>
+                            <li>Click "Visit Site" to accept the warning</li>
+                            <li>Come back and try again</li>
+                        </ol>
+                        <p><strong>Response:</strong></p>
+                        <pre>${text.substring(0, 500)}...</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>✅ Server Accessible</h3>
+                        <p><strong>Response:</strong></p>
+                        <pre>${text}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,58 @@
+{
+  "name": "Aloha Neighborhood",
+  "description": "Five-stop mini-quest around the Aloha neighborhood.",
+  "rating": 0,
+  "enabled": true,
+  "checkpoints": [
+    {
+      "id": 1,
+      "name": "The Place",
+      "clue": "A skyline in shadow, a bridge in the mist—find the place named after a craftsman's twist.",
+      "lat": 45.4755224,
+      "lng": -122.8548158,
+      "answerImage": "IMG_2258.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Blue",
+      "clue": "Seek the giant painted blue, it will make a drink for you. ",
+      "lat": 45.4751065,
+      "lng": -122.8555795,
+      "answerImage": "IMG_2259.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Yellow",
+      "clue": "Painted bright like the midday sun, find the guardian that waits till fire has begun.",
+      "lat": 45.4747254,
+      "lng": -122.8562045,
+      "answerImage": "IMG_2260.jpg"
+    },
+    {
+      "id": 4,
+      "name": "White",
+      "clue": "Messages travel from far and near—find the box that brings letters here.",
+      "lat": 45.4755570,
+      "lng": -122.8560516,
+      "answerImage": "IMG_2261.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Signs",
+      "clue": "Two kids balance in playful flight, while guards keep watch day and night.",
+      "lat": 45.4755791,
+      "lng": -122.8543383,
+      "answerImage": "IMG_2262.jpg"
+    }
+  ],
+  "leaderboard": {
+    "entries": [],
+    "stats": {
+      "total_completions": 0,
+      "average_time": 0,
+      "best_time": null,
+      "last_updated": null
+    },
+    "ratings": []
+  }
+}

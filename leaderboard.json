@@ -1,0 +1,176 @@
+{
+  "1": [
+    {
+      "team_name": "Mira & Ivan",
+      "waypoints_completed": 12,
+      "completion_time": 1761356,
+      "quest_date": "8/17/2025",
+      "timestamp": "2025-08-17T13:48:02.310329"
+    },
+    {
+      "team_name": "anton",
+      "waypoints_completed": 12,
+      "completion_time": 2309097,
+      "quest_date": "8/19/2025",
+      "timestamp": "2025-08-19T19:08:33.979216"
+    }
+  ],
+  "2": [
+    {
+      "team_name": "Evgeni",
+      "waypoints_completed": 2,
+      "completion_time": 405871,
+      "quest_date": "8/18/2025",
+      "timestamp": "2025-08-18T12:49:02.822599"
+    },
+    {
+      "team_name": "Mira & Ivan",
+      "waypoints_completed": 5,
+      "completion_time": 561356,
+      "quest_date": "8/18/2025",
+      "timestamp": "2025-08-18T13:48:02.310329"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 3,
+      "completion_time": 94098,
+      "quest_date": "8/18/2025",
+      "timestamp": "2025-08-18T14:55:01.539051"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 3,
+      "completion_time": 1160415,
+      "quest_date": "8/18/2025",
+      "timestamp": "2025-08-18T15:16:40.317542"
+    },
+    {
+      "team_name": "Shiva",
+      "waypoints_completed": 3,
+      "completion_time": 69667,
+      "quest_date": "8/18/2025",
+      "timestamp": "2025-08-18T22:29:24.472235"
+    }
+  ],
+  "3": [
+    {
+      "team_name": "Test Team",
+      "waypoints_completed": 2,
+      "completion_time": 300,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T15:42:55.063739"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 2,
+      "completion_time": 31954,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T15:45:58.260863"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 1,
+      "completion_time": 26888,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T15:48:20.122953"
+    },
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 2,
+      "completion_time": 146494,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T15:51:15.566913"
+    }
+  ],
+  "1755730846780": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 2,
+      "completion_time": 106878,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T16:03:49.453589"
+    }
+  ],
+  "1755731567206": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 1,
+      "completion_time": 34514,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T16:17:31.949031"
+    }
+  ],
+  "1755731640549": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 1,
+      "completion_time": 36328,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T16:18:15.487833"
+    }
+  ],
+  "1755732688635": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 3,
+      "completion_time": 104363,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T16:33:39.105421"
+    }
+  ],
+  "1755741193534": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 1,
+      "completion_time": 26263,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T18:54:02.320157"
+    }
+  ],
+  "1755745510884": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 1,
+      "completion_time": 21186,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T20:05:58.488194"
+    }
+  ],
+  "1755751104432": [
+    {
+      "team_name": "Cyberpunk",
+      "waypoints_completed": 1,
+      "completion_time": 22066,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T21:39:40.251926"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 1,
+      "completion_time": 21581,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T23:14:49.744001"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 1,
+      "completion_time": 28801,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T23:19:40.244478"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 1,
+      "completion_time": 24379,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T23:22:50.206894"
+    },
+    {
+      "team_name": "Zeus",
+      "waypoints_completed": 1,
+      "completion_time": 15885,
+      "quest_date": "8/20/2025",
+      "timestamp": "2025-08-20T23:25:09.201956"
+    }
+  ]
+}

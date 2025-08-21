@@ -1,0 +1,61 @@
+{
+  "id": 1755751104432,
+  "name": "Blue ",
+  "description": "Quest created with Quest Designer",
+  "difficulty": "Medium",
+  "ageGroup": "All Ages",
+  "distance": "1 waypoints",
+  "checkpoints": [
+    {
+      "id": 1,
+      "name": "Blue Track",
+      "clue": "I'm blue",
+      "lat": 45.47467205090473,
+      "lng": -122.85460734487768,
+      "notes": "",
+      "answerImage": [
+        "Blue__2025-08-20_21-38-36_waypoint1_photo1.jpg",
+        "Blue__2025-08-20_21-38-36_waypoint1_photo2.jpg",
+        "Blue__2025-08-20_21-38-36_waypoint1_photo3.jpg",
+        "Blue__2025-08-20_21-38-36_waypoint1_photo4.jpg"
+      ]
+    }
+  ],
+  "leaderboard": {
+    "entries": [
+      {
+        "team_name": "Cyberpunk",
+        "waypoints_completed": 1,
+        "completion_time": 30619,
+        "quest_date": "8/20/2025",
+        "timestamp": "2025-08-20T22:33:43.354050"
+      }
+    ],
+    "stats": {
+      "total_completions": 1,
+      "average_time": 30619.0,
+      "best_time": 30619,
+      "last_updated": "2025-08-20T22:33:43.354060"
+    },
+    "ratings": [
+      {
+        "rating": 4,
+        "timestamp": "2025-08-20T22:34:07.023013"
+      },
+      {
+        "rating": 5,
+        "timestamp": "2025-08-20T23:20:40.482006"
+      },
+      {
+        "rating": 5,
+        "timestamp": "2025-08-20T23:21:02.113077"
+      },
+      {
+        "rating": 4,
+        "timestamp": "2025-08-20T23:25:14.371683"
+      }
+    ]
+  },
+  "rating": 4.5,
+  "enabled": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": 1755741193534,
+  "name": "Business is Business",
+  "description": "Quest created with Quest Designer",
+  "difficulty": "Medium",
+  "ageGroup": "All Ages",
+  "distance": "1 waypoints",
+  "checkpoints": [
+    {
+      "id": 1,
+      "name": "I'm a little slow",
+      "clue": "Turtle",
+      "lat": 45.51892684962808,
+      "lng": -122.56265933205744,
+      "notes": "",
+      "answerImage": [
+        "Business_is_Business_2025-08-20_18-53-19_waypoint1_photo1.jpg",
+        "Business_is_Business_2025-08-20_18-53-19_waypoint1_photo2.jpg"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": 1755732688635,
+  "name": "Yellow car",
+  "description": "Quest created with Quest Creator",
+  "difficulty": "Medium",
+  "ageGroup": "All Ages",
+  "distance": "3 waypoints",
+  "checkpoints": [
+    {
+      "id": 1,
+      "name": "Waypoint 1",
+      "clue": "Find waypoint 1",
+      "lat": 45.474600237438246,
+      "lng": -122.85496283228231,
+      "notes": "",
+      "answerImage": [
+        "Yellow_car_2025-08-20_16-31-45_waypoint1_photo1.jpg"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Blue car",
+      "clue": "Find waypoint 2",
+      "lat": 45.47477185950648,
+      "lng": -122.85440513140014,
+      "notes": "",
+      "answerImage": [
+        "Yellow_car_2025-08-20_16-31-45_waypoint2_photo1.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Truck",
+      "clue": "Find waypoint 3",
+      "lat": 45.474766902659574,
+      "lng": -122.8545909926238,
+      "notes": "",
+      "answerImage": [
+        "Yellow_car_2025-08-20_16-31-45_waypoint3_photo1.jpg"
+      ]
+    }
+  ]
+}
